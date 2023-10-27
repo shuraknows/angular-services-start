@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { LoggingService } from '../logging.service';
 
 @Component({
@@ -12,7 +12,11 @@ export class AccountComponent {
   @Input() id: number;
   @Output() statusChanged = new EventEmitter<{id: number, newStatus: string}>();
 
-  constructor(private loggingService: LoggingService) {}
+  private loggingService?: LoggingService;
+
+  constructor() {
+    this.loggingService = inject(LoggingService);
+  }
 
   onSetTo(status: string) {
     this.statusChanged.emit({id: this.id, newStatus: status});
